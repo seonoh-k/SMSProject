@@ -18,14 +18,34 @@ public class StudentRegistService {
 	
 	public boolean searchStudent(int student_no) throws Exception{
 		
+		boolean isRegisted = false;
 		
-		return false;
+		Connection con = getConnection();
+		StudentDAO studentDAO = new StudentDAO(con);
+		
+		Student student = studentDAO.selectStudent(student_no);
+		
+		if(student != null) {
+			isRegisted = true;
+		}
+		
+		return isRegisted;
 	}
 	
 	public boolean registStudent(Student newStudent) throws Exception{
 
+		boolean isRegisted = false;
 		
-		return false;
+		Connection con = getConnection();
+		StudentDAO studentDAO = new StudentDAO(con);
+		
+		int student = studentDAO.insertStudent(newStudent);
+		
+		if(student != 0) {
+			isRegisted = true;
+		}
+		
+		return isRegisted;
 	}
 	
 }

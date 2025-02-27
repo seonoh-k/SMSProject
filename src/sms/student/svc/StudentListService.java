@@ -10,7 +10,12 @@ public class StudentListService {
 	
 	public ArrayList<Student> getStudentList() throws Exception{
 
-		return null;
+		Connection con = getConnection();
+		StudentDAO studentDAO = new StudentDAO(con);
+		
+		ArrayList<Student> studentList = studentDAO.selectStudentList();
+		
+		return studentList;
 	}
 	
 }

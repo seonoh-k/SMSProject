@@ -7,6 +7,12 @@ public class StudentController {
 
 	public void requestProcess(Action action, Scanner sc) {
 		
+		try {
+			action.execute(sc);	
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		
 	}
 	
 }
