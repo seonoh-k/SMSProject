@@ -8,22 +8,34 @@ import sms.student.vo.Grade;
 
 public class GradeSearchService {
 
+	boolean isSearchSuccess = false;
+	ArrayList<Grade> gradeList = null;
+	
 	public ArrayList<Grade> getSearchGradeListByStudent_name(String student_name) throws Exception{
 
+		Connection con = getConnection();
+		GradeDAO gradeDAO = new GradeDAO(con);
+		gradeList = gradeDAO.selectGradeListByStudent_name(student_name);
 		
-		return null;
+		return gradeList;
 	}
 	
 	public ArrayList<Grade> getSearchGradeListByStudent_no(int student_no) throws Exception{
 		
+		Connection con = getConnection();
+		GradeDAO gradeDAO = new GradeDAO(con);
+		gradeList = gradeDAO.selectGradeListByStudent_no(student_no);
 		
-		return null;
+		return gradeList;
 	}
 
 	public ArrayList<Grade> getSearchGradeListByStudent_year(int student_year) throws Exception{
 		
+		Connection con = getConnection();
+		GradeDAO gradeDAO = new GradeDAO(con);
+		gradeList = gradeDAO.selectGradeListByStudent_year(student_year);
 		
-		return null;
+		return gradeList;
 	}
 	
 }

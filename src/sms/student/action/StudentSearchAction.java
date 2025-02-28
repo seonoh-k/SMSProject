@@ -16,44 +16,46 @@ public class StudentSearchAction implements Action {
 	public void execute(Scanner sc) throws Exception {
 
 		boolean isSearchSuccess = false;
-		String msgKind = "검색하려는";
 		ArrayList<Student> studentList = new ArrayList<>();
-		StudentSearchService studentSearch = new StudentSearchService();
+		int searchMenuNum = consoleUtil.getSearchMenuNum(sc);
 		
 		do {
 			
-			int searchMenu = consoleUtil.getSearchMenuNum(sc);
+			isSearchSuccess = false;
 			
-			switch(searchMenu) {
+			switch(searchMenuNum) {
 			case 1 :
-				String student_name = consoleUtil.getStudent_name(msgKind, sc);
-				studentList = studentSearch.getSearchStudentListByStudent_name(student_name);
+				String student_name = consoleUtil.getStudent_name("검색할 ", sc);
+				studentList = studentSearchService.getSearchStudentListByStudent_name(student_name);
 				break;
 			case 2 :
-				
-				int student_no = consoleUtil.getStudent_no(msgKind, sc);
-				studentList = studentSearch.getSearchStudentListByStudent_no(student_no);
+				int student_no = consoleUtil.getStudent_no("검색할 ", sc);
+				studentList = studentSearchService.getSearchStudentListByStudent_no(student_no);
 				break;
 			case 3 :
-				int student_year = consoleUtil.getGrade(msgKind, sc);
-				studentList = studentSearch.getSearchStudentListByStudent_year(student_year);
+				int student_year = consoleUtil.getGrade("검색할 ", sc);
+				studentList = studentSearchService.getSearchStudentListByStudent_year(student_year);
 				break;
 			case 4 :
 				consoleUtil.printSearchStudentCancel();
 				isSearchSuccess = true;
-				break;
+				return;
 			default :
 				consoleUtil.printSearchMenuNumWrong();
-				break;
+				Action action = new StudentSearchAction();
+				StudentController studentController = new StudentController();
+				studentController.requestProcess(action, sc); 
+				return;
 			}
 			
+			if(studentList != null) {
+				consoleUtil.printStudentList(studentList);
+				isSearchSuccess = true;
+			}else {
+				consoleUtil.printSearchStudentListNotFound();
+			}
 		}while(!isSearchSuccess);
 		
-		if(studentList != null) {
-			consoleUtil.printStudentList(studentList);
-		}else {
-			consoleUtil.printSearchStudentListNotFound();
-		}
 		
 	}
 }

@@ -9,13 +9,28 @@ public class GradeModifyService {
 
 	public Grade getModifyGrade(int student_no) throws Exception{
 		
+		Connection con = getConnection();
+		GradeDAO gradeDAO = new GradeDAO(con);
+		Grade changeGrade = gradeDAO.selectGrade(student_no);
 		
-		return null;
+		return changeGrade;
 	}
 
 	public boolean modifyGrade(Grade changeGrade) throws Exception{
 		
+		boolean isModifySuccess = false;
+		Connection con = getConnection();
+		GradeDAO gradeDAO = new GradeDAO(con);
 		
-		return false;
+		int isModified = gradeDAO.updateGrade(changeGrade);
+		
+		if(isModified != 0) {
+			isModifySuccess = true;
+			commit(con);
+		}else {
+			rollback(con);
+		}
+		
+		return isModifySuccess;
 	}
 }

@@ -14,7 +14,14 @@ public class GradeListAction implements Action {
 	@Override
 	public void execute(Scanner sc) throws Exception {
 		
+		ArrayList<Grade> gradeList = gradeListService.getGradeList();
 		
+		if(gradeList != null) {
+			consoleUtil.printGradeList(gradeList);			
+		}else {
+			consoleUtil.printGradeListNotFound();
+			return;
+		}
 		
 		
 	}

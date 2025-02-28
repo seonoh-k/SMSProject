@@ -13,7 +13,23 @@ public class ScholarshipModifyAction implements Action {
 	@Override
 	public void execute(Scanner sc) throws Exception {
 			
+		boolean isModified = false;
+		String sc_name = consoleUtil.getScholar_name("", sc); 
+		Scholarship modyfiScholarship = scholarshipModifyService.getModifyScholarship(sc_name);
 		
+		if(modyfiScholarship == null) {
+			consoleUtil.printScholarshipNotFound(sc_name);
+			return;
+		}
+		
+		isModified = scholarshipModifyService.modifyScholarship(modyfiScholarship);
+		
+		if(isModified) {
+			consoleUtil.printModifySuccess(modyfiScholarship);
+		}else {
+			consoleUtil.printModifyFail(modyfiScholarship);
+			return;
+		}
 	}
 	
 }

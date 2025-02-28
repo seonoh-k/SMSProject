@@ -7,16 +7,33 @@ import sms.student.vo.Scholarship;
 
 public class ScholarshipModifyService {
 
+	Scholarship scholarship = null;
+	
 	public Scholarship getModifyScholarship(String sc_name) throws Exception{
 		
+		Connection con = getConnection();
+		ScholarshipDAO scholarshipDAO = new ScholarshipDAO(con);
+		scholarship = scholarshipDAO.selectScholarship(sc_name);
 		
-		return null;
+		return scholarship;
 	}
 
 	public boolean modifyScholarship(Scholarship changeScholarship) throws Exception{
 		
+		boolean isModifySuccess = false;
+		Connection con = getConnection();
+		ScholarshipDAO scholarshipDAO = new ScholarshipDAO(con);
 		
-		return false;
+		int isModified = scholarshipDAO.updateScholarship(changeScholarship);
+		
+		if(isModified != 0) {
+			isModifySuccess = true;
+			commit(con);
+		}else {
+			rollback(con);
+		}
+		
+		return isModifySuccess;
 	}
 	
 }

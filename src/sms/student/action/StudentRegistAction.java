@@ -19,15 +19,26 @@ public class StudentRegistAction implements Action {
 		
 		if(isRegisted) {
 			consoleUtil.printRegistedStudent(stu_no);
-		}else {
-			Student newStudent = consoleUtil.getNewStudent(stu_no, sc);
-			isRegisted = studentRegistService.registStudent(newStudent);
-			if(isRegisted) {
-				consoleUtil.printRegistSuccess(newStudent);
-			}else {
-				consoleUtil.printRegistFail(newStudent);				
-			}
+			return;
 		}
+		
+		Student newStudent = consoleUtil.getNewStudent(stu_no, sc);
+		String unfitForm = studentRegistService.compareBirthRegistForm(newStudent);
+		
+		if (unfitForm != null) {
+			consoleUtil.printUnfitForm(unfitForm);
+			return;
+		}
+		
+		isRegisted = studentRegistService.registStudent(newStudent);
+		
+		if(isRegisted) {
+			consoleUtil.printRegistSuccess(newStudent);
+		}else {
+			consoleUtil.printRegistFail(newStudent);	
+			return;
+		}	
+		
 	}
 	
 }

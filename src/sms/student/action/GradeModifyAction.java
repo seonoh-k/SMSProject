@@ -13,6 +13,24 @@ public class GradeModifyAction implements Action {
 	@Override
 	public void execute(Scanner sc) throws Exception {		
 		
+		boolean isModified = false;
+		int student_no = consoleUtil.getStudent_no("", sc);
+		Grade changeGrade = gradeModifyService.getModifyGrade(student_no);
+		
+		if(changeGrade == null) {
+			consoleUtil.printGradeNotFound(student_no);
+			return;
+		}
+		
+		isModified = gradeModifyService.modifyGrade(changeGrade);
+		
+		if(isModified) {
+			consoleUtil.printModifySuccess(changeGrade);
+		}else {
+			consoleUtil.printModifyFail(changeGrade);
+			return;
+		}
+		
 		
 	}
 	

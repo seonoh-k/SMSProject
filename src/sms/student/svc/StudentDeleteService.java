@@ -7,16 +7,30 @@ import sms.student.vo.Student;
 
 public class StudentDeleteService {
 
-	public Student getDeleteStudent(int stu_no) throws Exception{
+	public Student getDeleteStudent(int student_no) throws Exception{
 		
+		Connection con = getConnection();
+		StudentDAO studentDAO = new StudentDAO(con);
+		Student deleteStudent = studentDAO.selectStudent(student_no);
 		
-		return null;
+		return deleteStudent;
 	}
 		
-	public boolean deleteStudent(int stu_no) throws Exception{
+	public boolean deleteStudent(int student_no) throws Exception{
 		
+		Connection con = getConnection();
+		StudentDAO studentDAO = new StudentDAO(con);
+		boolean isDeleteSuccess = false;
+		int result = studentDAO.deleteStudent(student_no);
 		
-		return false;
+		if(result != 0) {
+			isDeleteSuccess = true;
+			commit(con);
+		}else {
+			rollback(con);
+		}
+		
+		return isDeleteSuccess;
 	}
 	
 }

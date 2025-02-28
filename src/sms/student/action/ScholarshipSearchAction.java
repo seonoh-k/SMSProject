@@ -15,7 +15,40 @@ public class ScholarshipSearchAction implements Action {
 	@Override
 	public void execute(Scanner sc) throws Exception {
 	
+		boolean isSearchSuccess = false;
+		ArrayList<Scholarship> scholarshipList = new ArrayList<>();
+		int searchMenuNum = consoleUtil.getSearchMenuNum(sc);
+		
+		do {
 			
+			isSearchSuccess = false;
+			
+			switch(searchMenuNum) {
+			case 1 :
+				String sc_name = consoleUtil.getScholar_name("", sc);
+				scholarshipList = scholarshipSearchService.getSearchScholarshipListBySc_name(sc_name);
+				break;
+			case 2 :
+				int sc_money = consoleUtil.getMoney("", sc);
+				scholarshipList = scholarshipSearchService.getSearchScholarshipListByMoney(sc_money);
+				break;
+			default :
+				consoleUtil.printSearchMenuNumWrong();
+				Action action = new ScholarshipSearchAction();
+				StudentController studentController = new StudentController();
+				studentController.requestProcess(action, sc); 
+				return;
+			}
+			
+			if(scholarshipList != null) {
+				consoleUtil.printScholarshipList(scholarshipList);
+				isSearchSuccess = true;
+			}else {
+				consoleUtil.printScholarshipListNotFound();
+			}
+			
+		}while(!isSearchSuccess);
+		
 	}
 	
 }

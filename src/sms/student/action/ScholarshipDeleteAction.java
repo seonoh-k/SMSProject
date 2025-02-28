@@ -13,7 +13,23 @@ public class ScholarshipDeleteAction implements Action {
 	@Override
 	public void execute(Scanner sc) throws Exception {
 
+		boolean isDeleteSuccess = false;
+		String sc_name = consoleUtil.getScholar_name("", sc);
+		Scholarship deleteScholarship = scholarshipDeleteService.getDeleteScholarship(sc_name);
 		
+		if(deleteScholarship == null) {
+			consoleUtil.printScholarshipNotFound(sc_name);
+			return;
+		}
+		
+		isDeleteSuccess = scholarshipDeleteService.deleteScore(sc_name);
+		
+		if(isDeleteSuccess) {
+			consoleUtil.printDeleteSuccess(deleteScholarship);
+		}else {
+			consoleUtil.printDeleteFail(deleteScholarship);
+			return;
+		}
 		
 	}
 	

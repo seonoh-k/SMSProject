@@ -5,10 +5,10 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import sms.student.vo.Student;
+import static sms.db.JdbcUtil.*;
 
 public class StudentDAO {
 	
@@ -18,7 +18,7 @@ public class StudentDAO {
 		this.con = con;
 	}
 
-	public int insertStudent(Student newStudent) throws Exception{
+	public int insertStudent(Student newStudent, Date birth) throws Exception{
 
 		String sql = "INSERT INTO STUDENT VALUES (?, ?, ?, ?, ?, ?)";
 		PreparedStatement ps = null;
@@ -33,23 +33,14 @@ public class StudentDAO {
 			ps.setInt(3, newStudent.getStudent_year());
 			ps.setString(4, newStudent.getStudent_addr());
 			ps.setString(5, newStudent.getStudent_tel());
-			ps.setString(6, newStudent.getStudent_birth());
+			ps.setDate(6, birth);
 			
 			result = ps.executeUpdate();
 			
-		}catch(Exception e) {
+		}catch(SQLException e) {
 			e.printStackTrace();
 		}finally {
-			try {
-				if(ps != null) {
-					ps.close();
-				}
-				if(con != null) {
-					con.close();
-				}				
-			}catch(SQLException e) {
-				e.printStackTrace();
-			}
+				close(ps);
 		}
 		
 		return result;		
@@ -62,7 +53,6 @@ public class StudentDAO {
 		String sql = "SELECT * FROM STUDENT";
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		
 		try {
 			
@@ -75,29 +65,17 @@ public class StudentDAO {
 				int stu_year = rs.getInt("student_year");
 				String stu_addr = rs.getString("student_addr");
 				String stu_tel = rs.getString("student_tel");
-				Date stu_date = rs.getDate("student_birth");
-				String stu_birth = dateFormat.format(stu_date);
+				String stu_birth = rs.getDate("student_birth").toString();
 				
 				student = new Student(stu_no, stu_name, stu_year, stu_addr, stu_tel, stu_birth);
 				studentList.add(student);
 			}
 			
-		}catch(Exception e) {
+		}catch(SQLException e) {
 			e.printStackTrace();
 		}finally {
-			try {
-				if(rs != null ) {
-					rs.close();									
-				}
-				if(ps != null) {
-					ps.close();
-				}
-				if(con != null) {
-					con.close();
-				}				
-			}catch(SQLException e) {
-				e.printStackTrace();
-			}
+			close(rs);
+			close(ps);
 		}
 		
 		return studentList;
@@ -109,7 +87,6 @@ public class StudentDAO {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		Student student = null;
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		
 		try {
 			
@@ -123,30 +100,18 @@ public class StudentDAO {
 				int stu_year = rs.getInt("student_year");
 				String stu_addr = rs.getString("student_addr");
 				String stu_tel = rs.getString("student_tel");
-				Date stu_date = rs.getDate("student_birth");
-				String stu_birth = dateFormat.format(stu_date);
+				String stu_birth = rs.getDate("student_birth").toString();
 				
 				student = new Student(stu_no, stu_name, stu_year, stu_addr, stu_tel, stu_birth);
 			}
 			 
 			
 			
-		}catch(Exception e) {
+		}catch(SQLException e) {
 			e.printStackTrace();
 		}finally {
-			try {
-				if(rs != null ) {
-					rs.close();									
-				}
-				if(ps != null) {
-					ps.close();
-				}
-				if(con != null) {
-					con.close();
-				}				
-			}catch(SQLException e) {
-				e.printStackTrace();
-			}
+			close(rs);
+			close(ps);
 		}
 		
 		return student;
@@ -156,10 +121,9 @@ public class StudentDAO {
 
 		ArrayList<Student> studentList = new ArrayList<>();
 		Student student = null;
-		String sql = "SELECT * FROM STUDENT WHERE STUDENT_NO = ?";
+		String sql = "SELECT * FROM student WHERE student_no = ?";
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		
 		try {
 			
@@ -173,29 +137,17 @@ public class StudentDAO {
 				int stu_year = rs.getInt("student_year");
 				String stu_addr = rs.getString("student_addr");
 				String stu_tel = rs.getString("student_tel");
-				Date stu_date = rs.getDate("student_birth");
-				String stu_birth = dateFormat.format(stu_date);
+				String stu_birth = rs.getDate("student_birth").toString();
 				
 				student = new Student(stu_no, stu_name, stu_year, stu_addr, stu_tel, stu_birth);
 				studentList.add(student);
 			}
 			
-		}catch(Exception e) {
+		}catch(SQLException e) {
 			e.printStackTrace();
 		}finally {
-			try {
-				if(rs != null ) {
-					rs.close();									
-				}
-				if(ps != null) {
-					ps.close();
-				}
-				if(con != null) {
-					con.close();
-				}				
-			}catch(SQLException e) {
-				e.printStackTrace();
-			}
+			close(rs);
+			close(ps);
 		}
 		return studentList;
 	}
@@ -204,10 +156,9 @@ public class StudentDAO {
 
 		ArrayList<Student> studentList = new ArrayList<>();
 		Student student = null;
-		String sql = "SELECT * FROM STUDENT WHERE STUDENT_NAME LIKE ?";
+		String sql = "SELECT * FROM student WHERE student_name LIKE ?";
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		
 		try {
 			
@@ -221,29 +172,17 @@ public class StudentDAO {
 				int stu_year = rs.getInt("student_year");
 				String stu_addr = rs.getString("student_addr");
 				String stu_tel = rs.getString("student_tel");
-				Date stu_date = rs.getDate("student_birth");
-				String stu_birth = dateFormat.format(stu_date);
+				String stu_birth = rs.getDate("student_birth").toString();
 				
 				student = new Student(stu_no, stu_name, stu_year, stu_addr, stu_tel, stu_birth);
 				studentList.add(student);
 			}
 			
-		}catch(Exception e) {
+		}catch(SQLException e) {
 			e.printStackTrace();
 		}finally {
-			try {
-				if(rs != null ) {
-					rs.close();									
-				}
-				if(ps != null) {
-					ps.close();
-				}
-				if(con != null) {
-					con.close();
-				}				
-			}catch(SQLException e) {
-				e.printStackTrace();
-			}
+			close(rs);
+			close(ps);
 		}
 		return studentList;
 	}
@@ -252,10 +191,9 @@ public class StudentDAO {
 
 		ArrayList<Student> studentList = new ArrayList<>();
 		Student student = null;
-		String sql = "SELECT * FROM STUDENT WHERE STUDENT_YEAR LIKE '?'";
+		String sql = "SELECT * FROM STUDENT WHERE STUDENT_YEAR = ?";
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		
 		try {
 			
@@ -269,44 +207,71 @@ public class StudentDAO {
 				int stu_year = rs.getInt("student_year");
 				String stu_addr = rs.getString("student_addr");
 				String stu_tel = rs.getString("student_tel");
-				Date stu_date = rs.getDate("student_birth");
-				String stu_birth = dateFormat.format(stu_date);
+				String stu_birth = rs.getDate("student_birth").toString();
 				
 				student = new Student(stu_no, stu_name, stu_year, stu_addr, stu_tel, stu_birth);
 				studentList.add(student);
 			}
 			
-		}catch(Exception e) {
+		}catch(SQLException e) {
 			e.printStackTrace();
 		}finally {
-			try {
-				if(rs != null ) {
-					rs.close();									
-				}
-				if(ps != null) {
-					ps.close();
-				}
-				if(con != null) {
-					con.close();
-				}				
-			}catch(SQLException e) {
-				e.printStackTrace();
-			}
+			close(rs);
+			close(ps);
 		}
 		return studentList;
 	}
 
 	public int deleteStudent(int student_no) throws Exception{
 
+		String sql = "DELETE STUDENT WHERE STUDENT_NO = ?";
+		PreparedStatement ps = null;
+		int result = 0;
 		
-		return 0;
+		try {
+			
+			ps = con.prepareStatement(sql);
+			ps.setInt(1, student_no);
+			result = ps.executeUpdate();
+			
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(ps);
+		}
+		
+		return result;
 	}
 
 
 	public int updateStudent(Student changeStudent, Date birth) throws Exception{
 
+		String sql = "UPDATE STUDENT SET STUDENT_NAME = ?, "
+				+ "STUDENT_YEAR = ?, STUDENT_ADDR = ?, STUDENT_TEL = ?, "
+				+ "STUDENT_BIRTH = ? WHERE STUDENT_NO = ?";
 		
-		return 0;
+		PreparedStatement ps = null;
+		int result = 0;
+		
+		try {
+			
+			ps = con.prepareStatement(sql);
+			ps.setString(1, changeStudent.getStudent_name());
+			ps.setInt(2, changeStudent.getStudent_year());
+			ps.setString(3, changeStudent.getStudent_addr());
+			ps.setString(4, changeStudent.getStudent_tel());
+			ps.setDate(5, birth);
+			ps.setInt(6, changeStudent.getStudent_no());
+			
+			result = ps.executeUpdate();
+			
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(ps);
+		}
+		
+		return result;
 	}
 	
 }

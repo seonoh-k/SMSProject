@@ -14,7 +14,14 @@ public class ScholarshipListAction implements Action {
 	@Override
 	public void execute(Scanner sc) throws Exception {
 		
+		ArrayList<Scholarship> scholarshipList = scholarshipListService.getScholarshipList();
 		
+		if(scholarshipList != null) {
+			consoleUtil.printScholarshipList(scholarshipList);
+		}else {
+			consoleUtil.printScholarshipListNotFound();
+			return;
+		}
 	}
 	
 }

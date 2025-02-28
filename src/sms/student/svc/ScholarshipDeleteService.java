@@ -9,14 +9,28 @@ public class ScholarshipDeleteService {
 
 	public Scholarship getDeleteScholarship(String sc_name) throws Exception{
 		
-		
-		return null;
+		Connection con = getConnection();
+		ScholarshipDAO scholarshipDAO = new ScholarshipDAO(con);
+		Scholarship deleteScholarship = scholarshipDAO.selectScholarship(sc_name);
+				
+		return deleteScholarship;
 	}
 
 	public boolean deleteScore(String sc_name) throws Exception{
 		
+		Connection con = getConnection();
+		ScholarshipDAO scholarshipDAO = new ScholarshipDAO(con);
+		boolean isDeleteSuccess = false;
+		int result = scholarshipDAO.deleteScholarship(sc_name);
 		
-		return false;
+		if(result != 0) {
+			isDeleteSuccess = true;
+			commit(con);
+		}else {
+			rollback(con);
+		}
+		
+		return isDeleteSuccess;
 	}
 	
 }

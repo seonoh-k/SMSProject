@@ -14,7 +14,32 @@ public class GradeRegistAction implements Action {
 	@Override
 	public void execute(Scanner sc) throws Exception {
 		
+		int stu_no = consoleUtil.getStudent_no("", sc);
 		
+		Student student = gradeRegistService.getRightStudent(stu_no);
+		
+		if(student == null) {
+			consoleUtil.printStudentNotFound(stu_no);
+			return;
+		}
+		
+		boolean isRegisted = gradeRegistService.searchGrade(stu_no);
+		
+		if(isRegisted) {
+			consoleUtil.printRegistedGrade(stu_no);
+			return;
+		}
+		
+		Grade newGrade = consoleUtil.getNewGrade(stu_no, sc);		
+		
+		isRegisted = gradeRegistService.registGrade(newGrade);
+		
+		if(isRegisted) {
+			consoleUtil.printRegistSuccess(newGrade);
+		}else {
+			consoleUtil.printRegistFail(newGrade);	
+			return;
+		}	
 		
 	}
 }

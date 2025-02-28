@@ -10,8 +10,12 @@ public class ScholarshipListService {
 
 	public ArrayList<Scholarship> getScholarshipList() throws Exception{
 		
+		Connection con = getConnection();
+		ScholarshipDAO scholarshipDAO = new ScholarshipDAO(con);
 		
-		return null;
+		ArrayList<Scholarship> scholarshipList = scholarshipDAO.selectScholarshipList();
+		
+		return scholarshipList;
 	}
 	
 }

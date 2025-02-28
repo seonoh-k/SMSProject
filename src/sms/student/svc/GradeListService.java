@@ -10,7 +10,12 @@ public class GradeListService {
 
 	public ArrayList<Grade> getGradeList() throws Exception{
 		
-		return null;
+		Connection con = getConnection();
+		GradeDAO gradeDAO = new GradeDAO(con);
+		
+		ArrayList<Grade> gradeList = gradeDAO.selectGradeList();
+		
+		return gradeList;
 	}
 	
 }

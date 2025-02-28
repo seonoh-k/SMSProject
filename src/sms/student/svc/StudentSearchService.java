@@ -10,11 +10,11 @@ public class StudentSearchService {
 
 	boolean isSearchSuccess = false;
 	ArrayList<Student> studentList = new ArrayList<>();
-	Connection con = getConnection();
-	StudentDAO studentDAO = new StudentDAO(con);
 	
 	public ArrayList<Student> getSearchStudentListByStudent_name(String student_name) throws Exception{
 		
+		Connection con = getConnection();
+		StudentDAO studentDAO = new StudentDAO(con);
 		studentList = studentDAO.selectStudentListByStudent_name(student_name);
 		
 		return studentList;
@@ -22,6 +22,8 @@ public class StudentSearchService {
 	
 	public ArrayList<Student> getSearchStudentListByStudent_no(int student_no) throws Exception{
 		
+		Connection con = getConnection();
+		StudentDAO studentDAO = new StudentDAO(con);
 		studentList = studentDAO.selectStudentByStudent_no(student_no);
 		
 		return studentList;
@@ -29,6 +31,8 @@ public class StudentSearchService {
 
 	public ArrayList<Student> getSearchStudentListByStudent_year(int student_year) throws Exception{
 		
+		Connection con = getConnection();
+		StudentDAO studentDAO = new StudentDAO(con);
 		studentList = studentDAO.selectStudentListByStudent_year(student_year);
 		
 		return studentList;

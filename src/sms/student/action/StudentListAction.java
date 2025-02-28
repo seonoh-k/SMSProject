@@ -20,6 +20,7 @@ public class StudentListAction implements Action {
 			consoleUtil.printStudentList(studentList);			
 		}else {
 			consoleUtil.printStudentListNotFound();
+			return;
 		}
 	}
 	
