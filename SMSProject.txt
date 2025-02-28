@@ -1,0 +1,48 @@
+DROP TABLE IF EXISTS `student`;
+
+CREATE TABLE `student` (
+	`student_no`	number(15)	NOT NULL,
+	`student_name`	varchar2(10)	NOT NULL,
+	`student_year`	number(10)	NOT NULL,
+	`student_addr`	varchar2(100)	NULL,
+	`student_tel`	varchar2(14)	NULL,
+	`student_birth`	date	NULL
+);
+
+DROP TABLE IF EXISTS `Grade`;
+
+CREATE TABLE `Grade` (
+	`student_no`	number(15)	NOT NULL,
+	`student_name`	varchar2(10)	NULL,
+	`grade_kor`	number(10)	NULL,
+	`grade_eng`	number(10)	NULL,
+	`grade_math`	number(10)	NULL
+);
+
+DROP TABLE IF EXISTS `Scholarship`;
+
+CREATE TABLE `Scholarship` (
+	`scholar_name`	varchar2(15)	NOT NULL,
+	`scholar_percent`	number(10)	NULL,
+	`scholar_money`	number(10)	NULL
+);
+
+ALTER TABLE `student` ADD CONSTRAINT `PK_STUDENT` PRIMARY KEY (
+	`student_no`
+);
+
+ALTER TABLE `Grade` ADD CONSTRAINT `PK_GRADE` PRIMARY KEY (
+	`student_no`
+);
+
+ALTER TABLE `Scholarship` ADD CONSTRAINT `PK_SCHOLARSHIP` PRIMARY KEY (
+	`scholar_name`
+);
+
+ALTER TABLE `Grade` ADD CONSTRAINT `FK_student_TO_Grade_1` FOREIGN KEY (
+	`student_no`
+)
+REFERENCES `student` (
+	`student_no`
+);
+
