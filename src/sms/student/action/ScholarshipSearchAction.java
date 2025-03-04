@@ -40,11 +40,12 @@ public class ScholarshipSearchAction implements Action {
 				return;
 			}
 			
-			if(scholarshipList != null) {
+			if(scholarshipList != null && !scholarshipList.isEmpty()) {
 				consoleUtil.printScholarshipList(scholarshipList);
 				isSearchSuccess = true;
 			}else {
 				consoleUtil.printScholarshipListNotFound();
+				return;
 			}
 			
 		}while(!isSearchSuccess);

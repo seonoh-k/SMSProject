@@ -85,7 +85,7 @@ public class GradeDAO {
 		Grade grade = null;
 		ArrayList<Grade> gradeList = new ArrayList<>();
 		String sql = "SELECT STUDENT_NO, STUDENT_NAME, GRADE_KOR, GRADE_ENG, GRADE_MATH "
-				+ "FROM GRADE JOIN STUDENT USING (STUDENT_NO) WHERE STUDENT_NAME LIKE ?";
+				+ "FROM GRADE JOIN STUDENT USING (STUDENT_NO) WHERE STUDENT_NAME LIKE '%' || ? || '%'";
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		
@@ -122,7 +122,7 @@ public class GradeDAO {
 		Grade grade = null;
 		ArrayList<Grade> gradeList = new ArrayList<>();
 		String sql = "SELECT STUDENT_NO, STUDENT_NAME, GRADE_KOR, GRADE_ENG, GRADE_MATH "
-				+ "FROM GRADE JOIN STUDENT USING (STUDENT_NO) WHERE STUDENT_NO LIKE ?";
+				+ "FROM GRADE JOIN STUDENT USING (STUDENT_NO) WHERE STUDENT_NO LIKE '%' || ? || '%'";
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		
@@ -275,8 +275,39 @@ public class GradeDAO {
 
 	public ArrayList<Grade> selectGradeListAddPercent(int gradeListSize) throws Exception{
 		
+		String sql = "SELECT * FROM (SELECT STUDENT_NO, STUDENT_NAME, GRADE_KOR, GRADE_ENG, GRADE_MATH FROM GRADE JOIN STUDENT USING (STUDENT_NO)"
+				+ "ORDER BY (GRADE_KOR + GRADE_ENG + GRADE_MATH) DESC)"
+				+ "WHERE ROWNUM <= (SELECT ROUND(COUNT(*) * (?/100)) FROM GRADE)";
+		ArrayList<Grade> gradeList = new ArrayList<>();
+		Grade grade = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
 		
-		return null;
+		try {
+			
+			ps = con.prepareStatement(sql);
+			ps.setInt(1, gradeListSize);
+			rs = ps.executeQuery();
+						
+			while(rs.next()) {
+				int stu_no = rs.getInt("student_no");
+				String stu_name = rs.getString("student_name");
+				int grade_kor = rs.getInt("grade_kor");
+				int grade_eng = rs.getInt("grade_eng");
+				int grade_math = rs.getInt("grade_math");
+				
+				grade = new Grade(stu_no, stu_name, grade_kor, grade_eng, grade_math);
+				gradeList.add(grade);
+			}
+			
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(rs);
+			close(ps);
+		}
+		
+		return gradeList;
 	}
 	
 }

@@ -121,7 +121,7 @@ public class StudentDAO {
 
 		ArrayList<Student> studentList = new ArrayList<>();
 		Student student = null;
-		String sql = "SELECT * FROM student WHERE student_no = ?";
+		String sql = "SELECT * FROM student WHERE student_no LIKE '%' || ? || '%'";
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		
@@ -142,6 +142,7 @@ public class StudentDAO {
 				student = new Student(stu_no, stu_name, stu_year, stu_addr, stu_tel, stu_birth);
 				studentList.add(student);
 			}
+
 			
 		}catch(SQLException e) {
 			e.printStackTrace();
@@ -156,7 +157,7 @@ public class StudentDAO {
 
 		ArrayList<Student> studentList = new ArrayList<>();
 		Student student = null;
-		String sql = "SELECT * FROM student WHERE student_name LIKE ?";
+		String sql = "SELECT * FROM student WHERE student_name LIKE '%' || ? || '%'";
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		

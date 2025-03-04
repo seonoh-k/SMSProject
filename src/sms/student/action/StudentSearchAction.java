@@ -48,11 +48,12 @@ public class StudentSearchAction implements Action {
 				return;
 			}
 			
-			if(studentList != null) {
+			if(studentList != null && !studentList.isEmpty()) {
 				consoleUtil.printStudentList(studentList);
 				isSearchSuccess = true;
 			}else {
 				consoleUtil.printSearchStudentListNotFound();
+				return;
 			}
 		}while(!isSearchSuccess);
 		

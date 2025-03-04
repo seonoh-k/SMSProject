@@ -110,7 +110,7 @@ public class ScholarshipDAO {
 
 		ArrayList<Scholarship> scholarshipList = new ArrayList<>();
 		Scholarship scholarship = null;
-		String sql = "SELECT * FROM SCHOLARSHIP WHERE SCHOLAR_NAME LIKE ?";
+		String sql = "SELECT * FROM SCHOLARSHIP WHERE SCHOLAR_NAME LIKE '%' || ? || '%'";
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		

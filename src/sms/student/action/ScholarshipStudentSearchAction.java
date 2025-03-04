@@ -18,6 +18,23 @@ public class ScholarshipStudentSearchAction implements Action {
 	@Override
 	public void execute(Scanner sc) throws Exception {
 				
+		String scholar_name = consoleUtil.getScholar_name("", sc);
+		Scholarship searchScholarship = scholarshipStudentSearchService.getSearchScholarship(scholar_name);
+		
+		if(scholar_name == null) {
+			consoleUtil.printScholarshipListNotFound();
+			return;
+		}
+		
+		ArrayList<Grade> gradeListAddPercent = scholarshipStudentSearchService.getScoreListAddPercent(searchScholarship);
+		ArrayList<ScholarshipStudent> scholarshipStudentList = scholarshipStudentSearchService.getScholarshipStudentSearchList(searchScholarship, gradeListAddPercent);
+		
+		if(scholarshipStudentList != null && !scholarshipStudentList.isEmpty()) {
+			consoleUtil.printScholarshipStudentList(scholarshipStudentList);
+		}else {
+			consoleUtil.printScholarshipStudentListNotFound();
+			return;
+		}
 		
 	}
 }

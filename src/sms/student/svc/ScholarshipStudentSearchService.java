@@ -13,21 +13,52 @@ public class ScholarshipStudentSearchService {
 
 	public Scholarship getSearchScholarship(String scholar_name) throws Exception{
 		
+		Connection con = getConnection();
+		ScholarshipDAO scholarshipDAO = new ScholarshipDAO(con);
+		Scholarship searchScholarship = scholarshipDAO.selectScholarship(scholar_name);
 		
-		return null;
+		return searchScholarship;
 	}
 
-	public ArrayList<Grade> getScoreListAddPercent() throws Exception{
+	public ArrayList<Grade> getScoreListAddPercent(Scholarship searchScholarship) throws Exception{
+		
+		Connection con = getConnection();
+		GradeDAO gradeDAO = new GradeDAO(con);
+		int gradeListSize = 0;
+		if(searchScholarship != null) {
+			gradeListSize = searchScholarship.getScholar_percent();			
+		}
+		ArrayList<Grade> gradeListAddPercent = gradeDAO.selectGradeListAddPercent(gradeListSize);
 		
 		
-		return null;
+		return gradeListAddPercent;
 	}
 
 	public ArrayList<ScholarshipStudent> getScholarshipStudentSearchList(
 			Scholarship searchScholarship, ArrayList<Grade> gradeListAddPercent) throws Exception{
 
+		ArrayList<ScholarshipStudent> scholarshipStudentList = new ArrayList<>();
 		
-		return null;
+		if(gradeListAddPercent != null) {
+			for(Grade grade : gradeListAddPercent) {
+				ScholarshipStudent scholarshipStudent = new ScholarshipStudent(
+						grade.getStudent_no(),
+						grade.getStudent_name(),
+						grade.getAvg(),
+						searchScholarship.getScholar_name(),
+						searchScholarship.getScholar_percent(),
+						searchScholarship.getScholar_money()
+						);
+				scholarshipStudentList.add(scholarshipStudent);			
+			}
+		}else {
+			scholarshipStudentList = null;
+			
+		}
+		
+		
+		
+		return scholarshipStudentList;
 	}
 	
 }

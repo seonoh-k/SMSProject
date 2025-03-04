@@ -25,11 +25,11 @@ public class GradeSearchAction implements Action {
 			
 			switch(searchMenuNum) {
 			case 1 :
-				String student_name = consoleUtil.getStudent_name("", sc);
+				String student_name = consoleUtil.getStudent_name("검색할 ", sc);
 				gradeList = gradeSearchService.getSearchGradeListByStudent_name(student_name);
 				break;
 			case 2 :
-				int student_no = consoleUtil.getStudent_no("", sc);
+				int student_no = consoleUtil.getStudent_no("검색할 ", sc);
 				gradeList = gradeSearchService.getSearchGradeListByStudent_no(student_no);
 				break;
 			case 3 :
@@ -48,11 +48,12 @@ public class GradeSearchAction implements Action {
 				return;
 			}
 			
-			if(gradeList != null) {
+			if(gradeList != null&& !gradeList.isEmpty()) {
 				consoleUtil.printGradeList(gradeList);
 				isSearchSuccess = true;
 			}else {
 				consoleUtil.printGradeListNotFound();
+				return;
 			}
 		}while(!isSearchSuccess);
 		
