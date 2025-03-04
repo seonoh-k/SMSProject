@@ -17,7 +17,7 @@ public class ScholarshipSearchAction implements Action {
 	
 		boolean isSearchSuccess = false;
 		ArrayList<Scholarship> scholarshipList = new ArrayList<>();
-		int searchMenuNum = consoleUtil.getSearchMenuNum(sc);
+		int searchMenuNum = consoleUtil.getSearchMenuNumScholarship(sc);
 		
 		do {
 			

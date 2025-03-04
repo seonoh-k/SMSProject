@@ -15,11 +15,14 @@ public class GradeModifyAction implements Action {
 		
 		boolean isModified = false;
 		int student_no = consoleUtil.getStudent_no("", sc);
-		Grade changeGrade = gradeModifyService.getModifyGrade(student_no);
+		Grade grade = gradeModifyService.getModifyGrade(student_no);
+		Grade changeGrade = null;
 		
-		if(changeGrade == null) {
+		if(grade == null) {
 			consoleUtil.printGradeNotFound(student_no);
 			return;
+		}else {
+			changeGrade = consoleUtil.getChangeGrade(grade, sc);
 		}
 		
 		isModified = gradeModifyService.modifyGrade(changeGrade);

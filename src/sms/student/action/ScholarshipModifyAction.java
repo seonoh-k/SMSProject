@@ -15,19 +15,22 @@ public class ScholarshipModifyAction implements Action {
 			
 		boolean isModified = false;
 		String sc_name = consoleUtil.getScholar_name("", sc); 
-		Scholarship modyfiScholarship = scholarshipModifyService.getModifyScholarship(sc_name);
+		Scholarship scholarship = scholarshipModifyService.getModifyScholarship(sc_name);
+		Scholarship modifyScholarship = null;
 		
-		if(modyfiScholarship == null) {
+		if(scholarship == null) {
 			consoleUtil.printScholarshipNotFound(sc_name);
 			return;
+		}else {
+			modifyScholarship = consoleUtil.getChangeScholarship(scholarship, sc);	
 		}
 		
-		isModified = scholarshipModifyService.modifyScholarship(modyfiScholarship);
+		isModified = scholarshipModifyService.modifyScholarship(modifyScholarship);
 		
 		if(isModified) {
-			consoleUtil.printModifySuccess(modyfiScholarship);
+			consoleUtil.printModifySuccess(modifyScholarship);
 		}else {
-			consoleUtil.printModifyFail(modyfiScholarship);
+			consoleUtil.printModifyFail(modifyScholarship);
 			return;
 		}
 	}

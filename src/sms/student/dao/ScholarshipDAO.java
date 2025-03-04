@@ -77,7 +77,7 @@ public class ScholarshipDAO {
 
 		ArrayList<Scholarship> scholarshipList = new ArrayList<>();
 		Scholarship scholarship = null;
-		String sql = "SELECT * FROM STUDENT";
+		String sql = "SELECT * FROM SCHOLARSHIP";
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		
@@ -110,7 +110,7 @@ public class ScholarshipDAO {
 
 		ArrayList<Scholarship> scholarshipList = new ArrayList<>();
 		Scholarship scholarship = null;
-		String sql = "SELECT * FROM STUDENT WHERE SCHOLARSHIP_NAME LIKE ?";
+		String sql = "SELECT * FROM SCHOLARSHIP WHERE SCHOLAR_NAME LIKE ?";
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		
@@ -145,7 +145,7 @@ public class ScholarshipDAO {
 
 		ArrayList<Scholarship> scholarshipList = new ArrayList<>();
 		Scholarship scholarship = null;
-		String sql = "SELECT * FROM STUDENT WHERE SCHOLAR_MONEY = ?";
+		String sql = "SELECT * FROM SCHOLARSHIP WHERE SCHOLAR_MONEY = ?";
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		
@@ -187,9 +187,9 @@ public class ScholarshipDAO {
 try {
 			
 			ps = con.prepareStatement(sql);
-			ps.setInt(2, changeScholarship.getScholar_percent());
+			ps.setInt(1, changeScholarship.getScholar_percent());
 			ps.setInt(2, changeScholarship.getScholar_money());
-			ps.setString(1, changeScholarship.getScholar_name());
+			ps.setString(3, changeScholarship.getScholar_name());
 			
 			result = ps.executeUpdate();
 			

@@ -15,12 +15,10 @@ public class GradeDAO {
 	public GradeDAO(Connection con) {
 		this.con = con;
 	}
-
-	ArrayList<Grade> gradeList = null;
 	
 	public int insertGrade(Grade newGrade) throws Exception{
 
-		String sql = "INSERT INTO GRADE VALUES (?, ?, ?, ?, ?)";
+		String sql = "INSERT INTO GRADE VALUES (?, ?, ?, ?)";
 		PreparedStatement ps = null;
 		int result = 0;
 		
@@ -29,10 +27,9 @@ public class GradeDAO {
 			ps = con.prepareStatement(sql);
 			
 			ps.setInt(1, newGrade.getStudent_no());
-			ps.setString(2, newGrade.getStudent_name());
-			ps.setInt(3, newGrade.getGrade_kor());
-			ps.setInt(4, newGrade.getGrade_eng());
-			ps.setInt(5, newGrade.getGrade_math());
+			ps.setInt(2, newGrade.getGrade_kor());
+			ps.setInt(3, newGrade.getGrade_eng());
+			ps.setInt(4, newGrade.getGrade_math());
 			
 			result = ps.executeUpdate();
 			
@@ -47,10 +44,12 @@ public class GradeDAO {
 
 	public ArrayList<Grade> selectGradeList() throws Exception{
 
-		String sql = "SELECT * FROM GRADE";
+		String sql = "SELECT STUDENT_NO, STUDENT_NAME, GRADE_KOR, GRADE_ENG, GRADE_MATH "
+				+ "FROM GRADE JOIN STUDENT USING (STUDENT_NO)";
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		Grade grade = null;
+		ArrayList<Grade> gradeList = new ArrayList<>();
 		
 		try {
 			
@@ -84,7 +83,9 @@ public class GradeDAO {
 	public ArrayList<Grade> selectGradeListByStudent_name(String student_name) throws Exception {
 
 		Grade grade = null;
-		String sql = "SELECT * FROM GRADE WHERE STUDENT_NAME LIKE ?";
+		ArrayList<Grade> gradeList = new ArrayList<>();
+		String sql = "SELECT STUDENT_NO, STUDENT_NAME, GRADE_KOR, GRADE_ENG, GRADE_MATH "
+				+ "FROM GRADE JOIN STUDENT USING (STUDENT_NO) WHERE STUDENT_NAME LIKE ?";
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		
@@ -119,7 +120,9 @@ public class GradeDAO {
 	public ArrayList<Grade> selectGradeListByStudent_no(int student_no) throws Exception{
 
 		Grade grade = null;
-		String sql = "SELECT * FROM GRADE WHERE STUDENT_NO LIKE ?";
+		ArrayList<Grade> gradeList = new ArrayList<>();
+		String sql = "SELECT STUDENT_NO, STUDENT_NAME, GRADE_KOR, GRADE_ENG, GRADE_MATH "
+				+ "FROM GRADE JOIN STUDENT USING (STUDENT_NO) WHERE STUDENT_NO LIKE ?";
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		
@@ -153,7 +156,9 @@ public class GradeDAO {
 	public ArrayList<Grade> selectGradeListByStudent_year(int student_year) throws Exception{
 
 		Grade grade = null;
-		String sql = "SELECT * FROM GRADE WHERE STUDENT_NO = (SELECT STUDENT_NO FROM STUDENT WHERE STUDENT_YEAR = ?)";
+		ArrayList<Grade> gradeList = new ArrayList<>();
+		String sql = "SELECT STUDENT_NO, STUDENT_NAME, GRADE_KOR, GRADE_ENG, GRADE_MATH "
+				+ "FROM GRADE JOIN STUDENT USING (STUDENT_NO) WHERE STUDENT_YEAR = ?";
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		
@@ -186,7 +191,8 @@ public class GradeDAO {
 	
 	public Grade selectGrade(int student_no) throws Exception{
 
-		String sql = "SELECT * FROM GRADE WHERE STUDENT_NO = ?";
+		String sql = "SELECT STUDENT_NO, STUDENT_NAME, GRADE_KOR, GRADE_ENG, GRADE_MATH "
+				+ "FROM GRADE JOIN STUDENT USING (STUDENT_NO) WHERE STUDENT_NO = ?";
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		Grade grade = null;
